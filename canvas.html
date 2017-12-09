@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <center>
+        <canvas id="myCanvas" style="width:300px;height:150px;"></canvas>
+    </center>
+    <script type="text/javascript">
+
+        //获取canvas
+        var myCanvas=document.getElementById('myCanvas');
+
+        //设置一个进度条初始值
+        var pro=0;
+
+
+        function start(){           
+            parameter(100,100,50,'#ddd','#FFF','#9ACD32','#9B30FF',pro,'#FFFF00');
+            var t=setTimeout(start,30);
+            if(pro>=100){
+                clearTimeout(t);
+                pro=0;
+                return;
+            }
+            pro+=1;
+        }
+        start();
+        function parameter(x,y,radius,wColor,nColor,hColor,jColor,progress,fColor){
+            if(myCanvas.getContext){
+                var cts=myCanvas.getContext('2d');
+            }else{
+                return;
+            }
+
+            //外圆
+            cts.beginPath(); 
+            cts.moveTo(x,y);
+            cts.arc(x,y,radius,0,Math.PI*2,true);
+            cts.closePath();
+            cts.fillStyle= wColor;
+            cts.fill();
+
+            //进度条
+            cts.beginPath();
+            cts.moveTo(x,y);
+            cts.arc(x,y,radius,Math.PI*1.5,Math.PI*1.5-Math.PI*2*progress/100,true);
+            cts.closePath();
+            cts.fillStyle=jColor;
+            cts.fill();
+
+            //内圆
+            cts.beginPath();
+            // cts.moveTo(x,y);
+            cts.arc(x,y,radius*0.7,0,Math.PI*2,true);
+            cts.closePath();
+            cts.fillStyle=nColor;
+            cts.fill();
+
+            //内环
+            cts.beginPath();
+            // cts.moveTo(x,y);
+            cts.arc(x,y,radius*0.65,0,Math.PI*2,true);
+            cts.closePath();
+            cts.fillStyle=hColor;
+            // cts.fill();
+            // cts.stroke();
+            
+            //中心文字
+            cts.textAlign='center';
+            cts.textBaseline='middle';
+            cts.fillStyle=fColor;
+            cts.moveTo(x,y);
+            cts.fillText(progress+'%',x,y)
+        }
+    </script>
+</body>
+</html>
